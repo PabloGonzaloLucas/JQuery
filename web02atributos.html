@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        img {
+            width: 300px;
+            height: 300px;
+        }
+
+        .rojo {
+            color: red;
+        }
+
+        .imgGrande {
+            border: "5px solid red";
+            width: "400px";
+            height: "400px"
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="name">Periphery</h1>
+    <img src="./images/periphery.jpg" alt="">
+    
+    
+    <script src="./js/jquery-3.7.1.js"></script>
+    <script>
+        var imageLink = "./images/";
+        $(document).ready(function(){
+            $("img").mouseover(function(){
+                var actual = $(this).attr("src");
+                console.log("Imagen over: " + actual);
+                image = "hk.jpg";
+                imageName = image.split(".")[0];
+                $("img").attr("src", imageLink + image);
+                $("#name").text(imageName);
+                $("img").css({"border": "5px solid red", "width": "400px", "height": "400px"});
+            })
+
+            $("img").mouseout(function(){
+                var actual = $(this).attr("src");
+                console.log("Imagen out: " + actual);
+                image = "periphery.jpg";
+                imageName = image.split(".")[0];
+                $("img").attr("src", imageLink + image);
+                $("#name").text(imageName);
+                $("img").css({"border": "none", "width": "300px", "height": "300px"});
+                })
+
+            $("img").click(function(){
+                var actual = $(this).attr("src");
+                console.log("Imagen click: " + actual);
+                image = "michael-myers.jpg";
+                imageName = image.split(".")[0];
+                $("img").attr("src", imageLink + image);
+                $("#name").text(imageName);
+            })
+        })
+
+        var p = document.createElement("p");
+        p.textContent = "Hola";
+        document.body.appendChild(p);
+        document.createElement("h2");  
+        
+        
+    </script>
+
+</body>
+</html>

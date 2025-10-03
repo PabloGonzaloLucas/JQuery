@@ -4,26 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
-<script src="./js/jquery-3.7.1.js"></script>
 
-<script>
-    $(document).ready(function(){
-        $("#hide").click(function(){
-            $("p").hide();
-        });
-    })
-    
-</script>
-<style>
-    #hide {
-        background-color: aqua;
-        margin: 20px;
-        border: 1px solid black;
-    }
-</style>
+    <style>
+        #hide {
+            background-color: aqua;
+            margin: 20px;
+            border: 1px solid black;
+            width: 200px;
+        }
+
+        .rojo{
+            color: red;
+        }
+    </style>
+</head>
+
+
 <body>
+   <h2 class="rojo">hola</h2>
    <p id="hide">Escóndemeasdsdssds</p>
+   <button class="rojo" id="boton1">Soy un boton</button>
+    <!-- COMENTARIOS EN IDE DE MICRODOFT CONTROL + K + C -->
+     <!-- DESCOMENTAR CONTROL + K + U -->
+
+   <script src="js/jquery-3.7.1.js"></script>
+   <script>
+        //la primera linea siempre debe ser la siguiente
+        $(document).ready(function(){
+            //aqui dentro el codigo
+            // $("#hide").click(function(){
+            //     $("p").hide();
+            // });
+
+            // $("h2").hide();
+        
+            $("p").click(function(){
+                //IMPRESCINDIBLE EN DESARROLLO FRONT
+                //MENSAJES POR CONSOLA
+                console.log("mensaje por consola");
+                $("#boton1").hide();
+                //existe una palabra clave que indica que accedemos al objeto que ha realizado la llamada: this
+                $(this).hide();
+            })
+
+            $(".rojo").click(function(){
+                console.log("mensaje por consola");
+                $(this).hide();
+            })
+        })
+    </script>
 </body>
 </html>
 

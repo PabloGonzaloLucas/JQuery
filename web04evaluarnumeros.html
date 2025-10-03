@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="number" id="numero1">
+    <input type="number" id="numero2">
+    <input type="number" id="numero3">
+    <button id="boton">Evaluar números</button>
+    <h1 id="resultado"></h1>
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>        
+        $(document).ready(function(){
+   
+            var html = "";
+            $("#boton").click(function(){
+                var num1 = parseFloat($("#numero1").val());
+                var num2 = parseFloat($("#numero2").val());
+                var num3 = parseFloat($("#numero3").val());
+                
+                var mayor, menor, intermedio;
+                if(num1 >= num2 && num1 >= num3){
+                    mayor = num1;
+                    if(num2 >= num3){
+                        intermedio = num2;
+                        menor = num3;
+                    }
+                    else{
+                        intermedio = num3;
+                        menor = num2;
+                    }
+                }
+
+                if(num2 >= num1 && num2 >= num3){
+                    mayor = num2;
+                    if(num1 >= num3){
+                        intermedio = num1;
+                        menor = num3;
+                    }
+                    else{
+                        intermedio = num3;
+                        menor = num1;
+                    }
+                }
+
+                if(num3 >= num1 && num3 >= num2){
+                    mayor = num3;
+                    if(num1 >= num2){
+                        intermedio = num1;
+                        menor = num2;
+                    }
+                    else{
+                        intermedio = num2;
+                        menor = num1;
+                    }
+                }
+                
+                $("#resultado").text("El mayor es: " + mayor + ", el intermedio es: " + intermedio + " y el menor es: " + menor);
+            })
+
+        })
+    </script>
+</body>
+</html>
