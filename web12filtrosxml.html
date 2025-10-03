@@ -25,20 +25,19 @@
             $("#botonlocalidad").click(function(){
                 $.get("documents/departamentos.xml", function(data){
                     console.log("leyendo...");
-                    var localidad = $("#cajalocalidad").val();
+                    var localidad = $("#cajalocalidad").val().toUpperCase();
                     //el filtro sera el siguiente: LOC:contains(GIJON)
                     var filtro = "LOC:contains(" + localidad + ")";
-                    var html = "";
-                    $(data).find(filtro).each(function(){
-                        var cosa = $(this).text();
-                        console.log(cosa)
-                        if(cosa != ""){
-                            html += "<li>" + cosa + "</li>";
-                        }
-                        else{
-                            html += "<li>No se encontró la localidad " + cosa + "</li>"
-                        }
+                    var html = ""
+                    var nodopadre = $(data).find(filtro).parent()
+                    nodopadre.each(function(){         
+                        var padreId = $(this).attr("DEPT_NO");
+                        var nombre = $(this).find("DNOMBRE").text();
+                        html += "<li>ID: " +padreId + "</li>";
+                        html += "<li>Nombre: " +nombre + "</li>";
+                        html += "<br>"
                     })
+                    
                     $("#listadepartamentos").html(html);
                 })
             })
@@ -52,10 +51,15 @@
                     var filtro = "DEPT[DEPT_NO=" + id + "]";
                     //SOLOAMENTE TENEMOS UN ID POR DEPARTAMENTO
                     var nododept = $(data).find(filtro).first();
+                    if(nododept.length != 0){
+                        var nombre = $(nododept).find("DNOMBRE").text();
+                        var localidad = $(nododept).find("LOC").text(); 
+                        $("#mensaje").text("Departamento: " + nombre + ", Localidad: " + localidad);
+                    }
+                    else{
+                        $("#mensaje").text("No se encontró");
+                    }
                     console.log(nododept)
-                    var nombre = $(nododept).find("DNOMBRE").text();
-                    var localidad = $(nododept).find("LOC").text(); 
-                    $("#mensaje").text("Departamento: " + nombre + ", Localidad: " + localidad);
                 })
             })
         })
