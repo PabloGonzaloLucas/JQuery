@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="cajas"></div>
+    <h1 id="contenedor"></h1>
+    <button id="reset">Resetear contador</button>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            var contador = 0;
+            for(var i = 1; i<=10; i++){
+                var boton = $("<button>", 
+                    {
+                     "text": Math.floor(Math.random()*100),
+                     "width": "150px", 
+                     "height": "150px",
+                     "css": {
+                        "color":"red", 
+                        "background-color": "aqua",
+                        "font-size": "20px"
+                      }
+                    }
+                );
+                boton.appendTo("#cajas");
+                
+                boton.click(function(){
+                    contador+= parseInt($(this).text())
+                    console.log("boton: "+$(this).text())
+                    console.log("contador: " + contador)
+                    $("#contenedor").text(contador); 
+                })
+            }
+
+            $("#reset").click(function(){
+                contador = 0;
+                $("#contenedor").text(""); 
+            })
+        })
+    </script>
+</body>
+</html>

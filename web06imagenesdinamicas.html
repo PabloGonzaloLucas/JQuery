@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>imagenes dinamicas</title>
+    <style>
+        img{
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Imagenes dinamicas</h1>
+    <input type="range" id="rango" max="20" min="1" value="1"/>
+    <span id="valorrango"></span>
+    <hr/>
+    <div id="contenedor"></div>
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        var imageLink = "./images/";
+
+        $(document).ready(function(){
+            $("#rango").change(function(){
+                var numImagenes = parseInt($("#rango").val());
+                $("#valorrango").text(numImagenes);
+                $("#contenedor").html("");
+                for(var i = 0; i<numImagenes; i++){
+                    var img = $("<img>", {"src": "images/periphery.jpg"});
+                    img.appendTo("#contenedor");
+                    $("img").mouseover(function(){
+                        var actual = $(this).attr("src");
+                        console.log("Imagen over: " + actual);
+                        image = "hk.jpg";
+                        imageName = image.split(".")[0];
+                        $("img").attr("src", imageLink + image);
+                        $("img").css({"border": "5px solid red", "width": "400px", "height": "400px"});
+                    })
+
+                    $("img").mouseout(function(){
+                        var actual = $(this).attr("src");
+                        console.log("Imagen out: " + actual);
+                        image = "periphery.jpg";
+                        imageName = image.split(".")[0];
+                        $("img").attr("src", imageLink + image);
+                        $("img").css({"border": "none", "width": "300px", "height": "300px"});
+                        })
+
+                    $("img").click(function(){
+                        var actual = $(this).attr("src");
+                        console.log("Imagen click: " + actual);
+                        image = "michael-myers.jpg";
+                        imageName = image.split(".")[0];
+                        $("img").attr("src", imageLink + image);
+                        $("#name").text(imageName);
+                    })
+                }
+                        
+            })
+
+            
+        })
+    </script>
+</body>
+</html>
