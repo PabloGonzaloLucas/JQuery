@@ -29,6 +29,9 @@
                     //el filtro sera el siguiente: LOC:contains(GIJON)
                     var filtro = "LOC:contains(" + localidad + ")";
                     var html = ""
+                    if($(data).find(filtro).length == 0){
+                        $("#mensaje").text("no existe la localidad")
+                    }
                     var nodopadre = $(data).find(filtro).parent()
                     nodopadre.each(function(){         
                         var padreId = $(this).attr("DEPT_NO");

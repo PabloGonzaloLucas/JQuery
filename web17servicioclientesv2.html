@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Clientes XML</h1>
+    <div id="contenedorBotones"></div>
+    <hr/>
+    <div id="contenedor"></div>
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            let url = "https://apiclientesxml.azurewebsites.net"
+            let request = "/api/Clientes"
+            var htmlBotones = ""
+            var html = ""
+            $.get(url+request,function(data){
+                $(data).find("Cliente").each(function(){
+                    var id= $(this).find("IdCliente").text()
+                    var nombre = $(this).find("Nombre").text()
+                    htmlBotones += "<button id='"+id+"'>"+nombre+"</button>"
+                    $("#contenedorBotones").html(htmlBotones)
+                })
+
+                $("#contenedorBotones button").click(function(){
+                    console.log("he entrao")
+                    var id = $(this).attr("id");
+                    console.log(id)
+                    html =""
+                    $.get(url+request+"/"+id, function(data){
+                        console.log(data)
+                        var nombre = $(data).find("Nombre").text()
+                        var email = $(data).find("Email").text()
+                        var paginaweb = $(data).find("PaginaWeb").text()
+                        var imagen = $(data).find("Imagen").text()
+                        html += "<h1>Nombre: "+nombre+"</h1>"
+                        html += "<h1>Email: "+email+"</h1>"
+                        html += "<h1>Página: "+paginaweb+"</h1>"
+                        html += "<img src='"+imagen+"' style='width:150px, height:150px'>"
+                        $("#contenedor").html(html)
+                            
+
+                        
+                    });
+
+                })
+            })
+
+        })
+    </script>
+</body>
+</html>
