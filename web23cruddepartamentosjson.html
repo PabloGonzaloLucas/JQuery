@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>CRUD Departamentos JSON</h1>
+    <label>Id departamento</label>
+    <input type="text" id="cajaid"><br>
+    <label>Nombre</label>
+    <input type="text" id="cajanombre"><br>
+    <label>Localidad</label>
+    <input type="text" id="cajalocalidad"><br>
+    <button id="botonget">Obtener departamentos</button>
+    <button id="botonpost">Crear departamento</button>
+    <button id="botonput">Actualizar departamento</button>
+    <button id="botonborrar">Borrar departamento</button><br>
+
+    <table id="tabladepartamentos">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        let url = "https://apicruddepartamentoscore.azurewebsites.net/"
+        $(document).ready(function(){
+            loadDepartamentos();
+
+            $("#botonget").click(function(){
+                loadDepartamentos()
+            })
+
+            $("#botonpost").click(function(){
+                createDepartamento()
+            })
+
+            $("#botonput").click(function(){
+                updateDepartamento()
+            })
+
+            $("#botonborrar").click(function(){
+                deleteDepartamento()
+            })
+        })
+
+        function loadDepartamentos(){
+            let request = "/api/Departamentos"
+            $.getJSON(url+request,function(data){
+                var html = ""
+                $.each(data, function(index, departamento){
+                    
+                    html += "<tr>";
+                    html += "<td>" + departamento.numero + "</td>"
+                    html += "<td>" + departamento.nombre + "</td>"
+                    html += "<td>" +departamento.localidad + "</td>"
+                    html += "</tr>";
+
+                    $("#tabladepartamentos tbody").html(html);
+                })
+            })
+        }
+        function createDepartamento(){
+            let request = "api/Departamentos"
+            let numero = parseInt($("#cajaid").val())
+            let nombre = $("#cajanombre").val()
+            let localidad = $("#cajalocalidad").val()
+            var departamento = new Object();
+            departamento.numero = numero;
+            departamento.nombre = nombre;
+            departamento.localidad = localidad;
+            console.log(departamento)
+
+            var dataJSON = JSON.stringify(departamento)
+            console.log(dataJSON)
+            //var dataJSON = getDepartamentoJSON(numero,nombre,localidad)
+            $.ajax({
+                url: url+request,
+                type: "POST",
+                contentType: "application/json",
+                data: dataJSON,
+                success: function(){
+                    console.log("creado");
+                    loadDepartamentos()
+                }
+            })
+        }
+        function updateDepartamento(){
+            let request = "/api/Departamentos"
+            let numero = parseInt($("#cajaid").val())
+            let nombre = $("#cajanombre").val()
+            let localidad = $("#cajalocalidad").val()
+            var departamento = new Object();
+            departamento.numero = numero;
+            departamento.nombre = nombre;
+            departamento.localidad = localidad;
+            console.log(departamento)
+            var dataJSON = JSON.stringify(departamento)
+            console.log(dataJSON)
+            //var dataJSON = getDepartamentoJSON(numero,nombre,localidad)
+            $.ajax({
+                url: url+request,
+                type: "PUT",
+                contentType: "application/json",
+                data: dataJSON,
+                success: function(){
+                    console.log("creado");
+                    loadDepartamentos()
+                }
+            })
+        }
+        function deleteDepartamento(){
+            var numero = $("#cajaid ").val()
+            let request = "api/Departamentos/"+numero;
+            $.ajax({
+                url: url+request,
+                type: "DELETE",
+                success: function(){
+                    console.log("borrado")
+                    loadDepartamentos()
+                }
+            })
+        }
+        function getDepartamentoJSON(numero,nombre,localidad){
+            var departamento = new Object();
+            departamento.numero = numero;
+            departamento.nombre = nombre;
+            departamento.localidad = localidad;
+            var dataJSON = JSON.stringify(departamento)
+            
+            return dataJSON;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Búsqeda Documento JSON</h1>    
+    <label>Seleccione un jugador</label>
+    <select id="selectjugador"></select>
+    <div id="containerjugador"></div>
+
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.getJSON("documents/jugadores.json", function(data){
+                $.each(data.jugadores, function(index, player){
+                    var nombre = player.nombre;
+                    var option =$("<option>", {"text":nombre, "data-index": index});
+                    $("#selectjugador").append(option)
+                })
+            })
+            
+            // $("#selectjugador").change(function(){
+            //     var name = $("#selectjugador").val();
+            //     $.ajax({
+            //         url: "documents/jugadores.json",
+            //         type: "GET",
+            //         dataType: "json",
+            //         success: function(data){
+            //             var html = ""
+            //             $.each(data.jugadores, function(index, player){
+            //                 var playerName = player.nombre;
+            //                 if(playerName == name){
+            //                     html += "<h1>" + playerName + "<h1>"
+            //                     html += "<h1>" + player.posicion + "</h1>"
+            //                     html += "<img src='"+ player.imagen+"'></img>"
+            //                 }
+            //             })
+            //             $("#containerjugador").html(html)
+            //         }
+            //     })  
+            // })
+
+            $("#selectjugador").change(function(){
+                var name = $("#selectjugador").val();
+                var index = $("#selectjugador").prop("selectedIndex");
+                $.ajax({
+                    url: "documents/jugadores.json",
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data){
+                        var html = ""
+                        console.log(data.jugadores)
+                     //   var indice = data.jugadores.nombre.indexOf("Sergio Ramos")
+                        console.log(index)
+                        var player = data.jugadores[index]
+                        html += "<h1>" + player.nombre + "<h1>"
+                        
+                        html += "<h1>" + player.posicion + "</h1>"
+                        html += "<img src='"+ player.imagen+"'></img>"
+                        //     
+                        
+                        $("#containerjugador").html(html)
+                    }
+                })  
+            })
+        })
+    </script>
+</body>
+</html>
