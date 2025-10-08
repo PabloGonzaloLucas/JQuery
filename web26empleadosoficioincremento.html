@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #f4f7fa;
+            color: #2c3e50;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        select, input[type="text"], button {
+            padding: 10px 15px;
+            margin: 10px 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        select {
+            background-color: #fff;
+        }
+
+        input[type="text"] {
+            width: 200px;
+        }
+
+        button {
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #145ca3;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table thead {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        table tbody tr:hover {
+            background-color: #e3f2fd;
+        }
+
+        @media (max-width: 768px) {
+            select, input[type="text"], button {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            input[type="text"] {
+                width: 100%;
+            }
+
+            table th, table td {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>EMPLEADOS OFICIOS</h1>
+    <select id="selectoficios"></select>
+    <label>Incremento salarial:</label><br>
+    <input type="text" id="cajasalario"><br>
+    <button id="botonincrementar">Incrementar salarios</button>
+    <table id="tablaempleados" border="1">
+        <thead>
+            <th>ID</th>
+            <th>Apellido</th>
+            <th>Oficio</th>
+            <th>Salario</th>
+            <th>Director</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+    
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        var url = "https://apiempleadosaction.azurewebsites.net"
+        $(document).ready(function(){
+           loadSelect()
+           $("#selectoficios").change(function(){
+                var oficio = $("#selectoficios").val();
+                loadEmpleados(oficio)
+           })
+           $("#botonincrementar").click(function(){
+                var salario = $("#cajasalario").val()
+                incrementarSalario(salario)
+           })
+        })
+
+        function loadSelect(){
+            var request= "/api/Empleados/GetOficios/oficios"
+            var htmlSelect = ""
+            $.getJSON(url+request, function(data){
+                $.each(data, function(index, oficio){
+                    htmlSelect += "<option value='"+oficio+"'>"+oficio+"</option>"
+                    $("#selectoficios").html(htmlSelect)
+                })
+            })
+        }
+
+        function incrementarSalario(salario){
+            var salarioIncrement = salario
+            console.log(salarioIncrement)
+            var oficio = $("#selectoficios").val();
+            var request = "/api/Empleados/IncrementarSalarioOficios/"+oficio+"/"+salarioIncrement
+            $.ajax({
+                url: url+request,
+                type: "PUT",
+                contentType: "json",
+                success: function(){
+                    console.log("salarios actualizados")
+                    loadEmpleados(oficio)
+                    // var request = "/api/Empleados/GetEmpleadosOficio/empleadosoficio/"+oficio
+                    // $.ajax({
+                    //     url: url+request,
+                    //     type:"GET",
+                    //     dataType:"json",
+                    //     success: function(data){
+                    //         var html= ""
+                    //         $.each(data, function(index, empleado){
+                    //             html += "<tr>"
+                    //             html += "<td>"+empleado.idEmpleado+"</td>"
+                    //             html += "<td>"+empleado.apellido+"</td>"
+                    //             html += "<td>"+empleado.oficio+"</td>"
+                    //             html += "<td>"+empleado.salario+"</td>"
+                    //             html += "<td>"+empleado.director+"</td>"
+                    //             html += "/<tr>"
+                    //             $("#tablaempleados tbody").html(html)
+                    //         })
+                    //     }
+                    // })    
+                }
+            })
+        }
+
+        function loadEmpleados(oficio){
+            var request = "/api/Empleados/GetEmpleadosOficio/empleadosoficio/"+oficio
+            $.ajax({
+                    url: url+request,
+                    type:"GET",
+                    dataType:"json",
+                    success: function(data){
+                        var html= ""
+                        $.each(data, function(index, empleado){
+                            html += "<tr>"
+                            html += "<td>"+empleado.idEmpleado+"</td>"
+                            html += "<td>"+empleado.apellido+"</td>"
+                            html += "<td>"+empleado.oficio+"</td>"
+                            html += "<td>"+empleado.salario+"</td>"
+                            html += "<td>"+empleado.director+"</td>"
+                            html += "</tr>"
+                            $("#tablaempleados tbody").html(html)
+                        })
+                    }
+                })    
+        }
+    </script>
+</body>
+</html>

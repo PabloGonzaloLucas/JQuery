@@ -14,48 +14,33 @@
     <script>
         let url = "https://apicruddepartamentospgs.azurewebsites.net/"
         $(document).ready(function(){
-            var request = "webresources/departamentos"
-            $.getJSON(url+request, function(data){
-                $.each(data, function(index, departamento){
-                    console.log(departamento)
-                    var deptLi = $("<li>", {"text":departamento.nombre, "data-numero":departamento.numero})
-                    deptLi.appendTo($("#listadepartamentos"));
-                    var botonborrar = $("<button>", {"text": "Borrar"})
-                    botonborrar.appendTo($("#listadepartamentos"))
-                    botonborrar.click(function(){
-                        $.ajax({
-                            url: url+request+"/delete/"+departamento.numero,
-                            method: "DELETE",
-                            succes: function(){
-                                console.log("borrado")
-                                recargar()
-                            }
-                        })
-                    })
-                })
-            })
+            recargar();
         })
 
         function recargar(){
-              var request = "webresources/departamentos"
+            var request = "webresources/departamentos"
+            $("#listadepartamentos").html("")    
             $.getJSON(url+request, function(data){
-                $.each(data, function(index, departamento){
-                    console.log(departamento)
-                    var deptLi = $("<li>", {"text":departamento.nombre, "data-numero":departamento.numero})
-                    deptLi.appendTo($("#listadepartamentos"));
-                    var botonborrar = $("<button>", {"text": "Borrar"})
-                    botonborrar.appendTo($("#listadepartamentos"))
-                    botonborrar.click(function(){
-                        $.ajax({
-                            url: url+request+"/delete/"+departamento.numero,
-                            method: "DELETE",
-                            succes: function(){
-                                console.log("borrado")
-                                recargar()
-                            }
+                    $.each(data, function(index, departamento){
+                        console.log(departamento)
+                        var deptLi = $("<li>", {"text":departamento.nombre, "data-numero":departamento.numero})
+                        deptLi.appendTo($("#listadepartamentos"));
+                        var botonborrar = $("<button>", {"text": "Borrar", "data-numero":departamento.numero})
+                        botonborrar.appendTo($(deptLi))
+                        botonborrar.click(function(){
+                            let id = $(this).attr("data-numero");
+                            console.log(id)
+                            $.ajax({
+                                url: url+request+"/delete/"+id,
+                                type: "DELETE",
+                                success: function(){
+                                    console.log("borrado")
+                                    recargar()
+                                    
+                                }
+                            })
                         })
                     })
-                })
             })
         }
     </script>
