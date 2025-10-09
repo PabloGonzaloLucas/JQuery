@@ -163,11 +163,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="web28createhospital.html">New hospital</a>
                     </li>
-                  
-                  
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                    </li>
+             
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -198,6 +194,34 @@
     <script>
         let url= "https://apicrudhospital.azurewebsites.net/"
         $(document).ready(function(){
+            var params = new window.URLSearchParams(window.location.search);
+            var idborrar = params.get("idborrar")
+            if(idborrar != null){
+                console.log(idborrar)
+                borrar(idborrar)
+            }
+            recargar()
+
+           var id = $(".btn btn-danger").val();
+            //var id = $(".btn btn-danger").val()
+            $(".btn btn-danger").click(function(){
+                
+            })
+
+        //     $(".btn btn-danger").on("click", function(){
+        //         var id = $(this).attr("data-id");
+        //         console.log(id)
+        //         borrar(id)
+        //     })
+
+            // $(document).on("click", ".btn btn-danger", function(){
+            //       var id = $(this).attr("data-id");
+            //      console.log(id)
+            //      borrar(id)
+            // })
+        })
+
+        function recargar(){
             let request = "/webresources/hospitales"
             $.ajax({
                 url: url+request,
@@ -206,20 +230,39 @@
                     console.log("leyendo...")
                     var html = ""
                     $.each(data, function(index, hospital){
+                    
                         html += "<tr>";
                         html += "<td>"+ hospital.nombre + "</td>";
                         html += "<td>"+ hospital.direccion + "</td>";
                         html += "<td>";
                         //web28detailhospital.html?idhospital = 99
-                        html += "<a href='web28detailshospital.html?idhospital="+hospital.idhospital+"'>Details</a>";
-                        html += "<a href='web28updatehospital.html?idhospital="+hospital.idhospital+"'> Edit</a>";
+                        html += "<a class='btn btn-success' href='web28detailshospital.html?idhospital="+hospital.idhospital+"'>Details</a>";
+                        html += "<a class='btn btn-success' href='web28updatehospital.html?idhospital="+hospital.idhospital+"'> Edit</a>";
+                        html += "<a class='btn btn-danger' href='web28homehospitales.html?idborrar="+hospital.idhospital+"'>Borrar</a>";
+                        // html += "<button class='btn btn-danger' data-id='"+hospital.idhospital+"' value='"+hospital.idhospital+
+                        // "' href='web28homehospitales.html?idhospital='"+hospital.idborrar+"'>Borrar</a>";
                         html += "</td>";
                         html += "</tr>";
+                     
                     })
                     $("#tablahospitales tbody").html(html)
                 }
             })
-        })
+        }
+
+     
+        function borrar(id){
+            var request = "/webresources/hospitales/delete/"+id
+            console.log(id)
+            $.ajax({
+                url: url+request,
+                method:"DELETE",
+                success: function(){
+                    console.log("borrado")
+                    recargar()
+                }  
+            })
+        }
     </script>
 </body>
 

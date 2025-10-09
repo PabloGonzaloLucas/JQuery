@@ -166,11 +166,7 @@
                      <li class="nav-item">
                         <a class="nav-link" href="web28updatehospital.html">Update hospital</a>
                     </li>
-             
-
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                    </li>
+                     
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -185,8 +181,7 @@
         <div class="bg-body-tertiary p-5 rounded">
             <h2 id="mensaje"></h2>
             <h1>Create hospital</h1>
-            <label>Id Hospital</label>
-            <input type="text" id="cajaid" class="form-control">
+
             <label>Nombre</label>
             <input type="text" id="cajanombre" class="form-control">
             <label>Direccion</label>
@@ -195,7 +190,7 @@
             <input type="text" id="cajatelefono" class="form-control">
             <label>Camas</label>
             <input type="text" id="cajacamas" class="form-control">
-            <button id="botoninsertar" class="btn btn-info">
+            <button id="botonactualizar" class="btn btn-info">
                 Insertar hospital
             </button>
         </div>
@@ -205,16 +200,18 @@
     <script>
         let url = "https://apicrudhospital.azurewebsites.net/"
         $(document).ready(function(){
-           $("#botoninsertar").click(function(){
-               var request = "webresources/hospitales/post"
-               var id = parseInt($("#cajaid").val());
+            var params = new window.URLSearchParams(window.location.search);
+            var idhospital = parseInt(params.get("idhospital"))
+            loadCajas(idhospital);
+            $("#botonactualizar").click(function(){
+               var request = "webresources/hospitales/put"
                var nombre = $("#cajanombre").val();
                var direccion = $("#cajadireccion").val();
                var telefono = $("#cajatelefono").val();
                var camas = parseInt($("#cajacamas").val());
    
                var data = new Object();
-               data.idhospital = id
+               data.idhospital = idhospital
                data.nombre = nombre
                data.direccion = direccion
                data.telefono = telefono
@@ -224,17 +221,29 @@
                console.log(dataJSON)
                $.ajax({
                   url: url+request,
-                  type:"POST",
+                  type:"PUT",
                   contentType:"application/json",
                   data: dataJSON,
                   success: function(){
-                    console.log("creado")
-                    $("#mensaje").text("creado");
-                    window.location.href = "web28homehospitales.html"
+                    console.log("actualizado")
+                    $("#mensaje").text("actualizado");
+                    window.location.href = "web28detailshospital.html?idhospital="+idhospital
                   }
                })
            })
         })
+
+        function loadCajas(id){
+            var request = "/webresources/hospitales/"+id
+            $.getJSON(url+request, function(data){
+                console.log(data)
+                $("#cajanombre").val(data.nombre);
+                $("#cajadireccion").val(data.direccion)
+                $("#cajatelefono").val(data.telefono)
+                $("#cajacamas").val(data.camas)
+
+            })
+        }
     </script>
 </body>
 
