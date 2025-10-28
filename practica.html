@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="contenedorClientes"></div>
+    
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            let url = "https://apiclientesxml.azurewebsites.net/";
+            let request = "api/Clientes/GetClientesXML";
+
+            var html = "";
+            $.get(url+request, function(data){
+               // console.log(data)
+                $(data).find("CLIENTE").each(function(){
+                    var nombre = $(this).find("NOMBRE").text()
+                    var imagen = $(this).find("IMAGENCLIENTE").text()
+                    console.log(nombre)
+                    let h1 = $("<h1>", {text: nombre})
+                    $("#contenedorClientes").append(h1)
+                    $("#contenedorClientes").append("<img src='"+imagen+"' />")
+                })
+            })
+        })
+    </script>
+</body>
+</html>

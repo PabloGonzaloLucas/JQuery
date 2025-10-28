@@ -19,6 +19,7 @@
             var htmlSelect = ""
             var html = ""
             $.get(url+request, function(data){
+                console.log(data)
                 $(data).find("coche").each(function(){
                     var id = $(this).attr("idcoche")
                     var marca = $(this).find("marca").text()

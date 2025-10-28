@@ -7,13 +7,15 @@
     <meta name="description" content="" />
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
     <meta name="generator" content="Astro v5.13.2" />
-    <title>Fixed top navbar example · Bootstrap v5.3</title>
-    <link rel="canonical" href="/js/navbar-fixed/" />
-    <script src="/js/color-modes.js"></script>
-    <link href="/css/bootstrap.min.css" rel="stylesheet"
-       />
+    <title>Offcanvas navbar template · Bootstrap v5.3</title>
+    <script src="../js/color-modes.js"></script>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+
     <meta name="theme-color" content="#712cf9" />
-    <link href="css/navbar-fixed.css" rel="stylesheet" />
+    <link href="../offcanvas-navbar.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.25.0/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.25.0/dist/sweetalert2.min.css" rel="stylesheet">
+
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -99,8 +101,8 @@
     </style>
 </head>
 
-<body>
- 
+<body class="bg-body-tertiary">
+  
     <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
         <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button"
             aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
@@ -148,23 +150,28 @@
             </li>
         </ul>
     </div>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Test plantilla</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">Práctica Final</a>
+            <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="web28homehospitales.html">Home</a>
+                        <a class="nav-link active" aria-current="page" href="practicaexamenhome.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="web28createhospital.html">New hospital</a>
+                        <a class="nav-link" href="practicaexamenapuestas.html">Apuestas</a>
+                    </li>
+                    <li class="nav-item">
+                        <label>Equipos</label>
+                        <select name="" id="selectEquipos">
+                        </select>
+                        <!-- </select><a class="nav-link" href="practicaexamenequipos.html"></a> -->
                     </li>
                   
-
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -175,34 +182,72 @@
             </div>
         </div>
     </nav>
+    <div class="nav-scroller bg-body shadow-sm">
+        <nav class="nav" aria-label="Secondary navigation">
+            <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+            <a class="nav-link" href="#">
+                Friends
+                <span class="badge text-bg-light rounded-pill align-text-bottom">27</span>
+            </a>
+            <a class="nav-link" href="#">Explore</a>
+            <a class="nav-link" href="#">Suggestions</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Link</a>
+        </nav>
+    </div>
     <main class="container">
-        <div class="bg-body-tertiary p-5 rounded">
-            <h1>Details</h1>
-            <ul id="listahospital" class="list-group"></ul>
+        <div class="d-flex align-items-center justify-content-center p-4 my-5 text-black bg-purple rounded shadow-sm">
+            
+            <div class="lh-1">
+                <h1 class="h6 mb-0 text-black lh-1">CRUD doctores</h1>
+                <small>Pablo</small>
+            </div>
         </div>
+        <div class="my-3 p-3 bg-body rounded shadow-sm" id="contenedordoctores">
+            <h6 class="border-bottom pb-2 mb-0">Madrid  Barsa</h6>
+            <div class="d-flex justify-content-between text-body-secondary pt-3 border-bottom pb-3">
+                <img src="https://imgs.search.brave.com/qVuwIachPFYVR0sBcf1g8Un9hkweRwIMk4iyFf4JLcg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9taXIt/czMtY2RuLWNmLmJl/aGFuY2UubmV0L3By/b2plY3RzLzQwNC8y/NTBiNTMxODEwODU3/ODkuWTNKdmNDd3hN/RGd3TERnME5Dd3dM/REkxTVEucG5n" alt="">
+            </div>
+            
+        
+
+        </div>
+       
     </main>
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script src="js/jquery-3.7.1.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"
+        class="astro-vvvwv3sm"></script>
+    <script src="../js/offcanvas-navbar.js" class="astro-vvvwv3sm"></script>
+    <script src="../js/jquery-3.7.1.js"></script>
     <script>
-        var url = "https://apicrudhospital.azurewebsites.net/"
+        let url = "https://apiapuestas.azurewebsites.net/"
         $(document).ready(function(){
-            var params = new window.URLSearchParams(window.location.search);
-            var idhospital = params.get("idhospital")
-            console.log(idhospital)
-            let request = "/webresources/hospitales/"+idhospital
-            var html=""
+            cargarEquipos()
+            $("#selectEquipos").change(function(){
+               window.location.href = "./practicaexamenequipos.html?"+"idEquipo="+$(this).val()
+            })
+
+        })
+        
+        function cargarEquipos(){
+            let request = "api/Equipos"
             $.ajax({
-                url:url+request,
-                type:"GET",
-                success: function(hospital){
-                    html+="<li class='list-group-item'>ID: "+hospital.idhospital+"</li>"
-                    html+="<li class='list-group-item'>Nombre: "+hospital.nombre+"</li>"
-                    html+="<li class='list-group-item'>Direccion: "+hospital.direccion+"</li>"
-                    html+="<li class='list-group-item'>Telefono: "+hospital.telefono+"</li>"
-                    $("#listahospital").html(html)
+                url: url+request,
+                method: "GET",
+                dataType: "json",
+                success: function(data){
+                    $.each(data, function(index, equipo){
+                        console.log(data)
+                        var opcion = $("<option>", {value: equipo.idEquipo, text: equipo.nombre})
+                        
+                        $("#selectEquipos").append(opcion)
+                    })
+                    
                 }
             })
-        })
+        }
     </script>
 </body>
 
